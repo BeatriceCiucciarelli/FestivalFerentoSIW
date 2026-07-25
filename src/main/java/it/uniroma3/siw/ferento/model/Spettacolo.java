@@ -1,8 +1,11 @@
 package it.uniroma3.siw.ferento.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -68,6 +72,20 @@ public class Spettacolo {
 	@ManyToOne
 	@JoinColumn(name = "artista_id", nullable = false)
 	private Artista artista;
+
+	// --- Lati inversi (solo navigazione, non creano colonne) ---
+
+	// Biglietti venduti per questo spettacolo.
+	// cascade = ALL + orphanRemoval: eliminando lo spettacolo si eliminano
+	// anche i biglietti collegati (caso d'uso "elimina spettacolo"),
+	// evitando cosi' violazioni di foreign key.
+	@OneToMany(mappedBy = "spettacolo", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Biglietto> biglietti = new ArrayList<>();
+
+	// Recensioni ricevute da questo spettacolo.
+	// Stessa cascata: una recensione non ha senso senza il suo spettacolo.
+	@OneToMany(mappedBy = "spettacolo", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Recensione> recensioni = new ArrayList<>();
 
 	public Spettacolo() {
 	}
@@ -126,6 +144,22 @@ public class Spettacolo {
 
 	public void setArtista(Artista artista) {
 		this.artista = artista;
+	}
+
+	public List<Biglietto> getBiglietti() {
+		return biglietti;
+	}
+
+	public void setBiglietti(List<Biglietto> biglietti) {
+		this.biglietti = biglietti;
+	}
+
+	public List<Recensione> getRecensioni() {
+		return recensioni;
+	}
+
+	public void setRecensioni(List<Recensione> recensioni) {
+		this.recensioni = recensioni;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package it.uniroma3.siw.ferento.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -38,6 +41,17 @@ public class Utente {
 	// come authority (tramite la query del JdbcUserDetailsManager).
 	@Column(nullable = false)
 	private String ruolo;
+
+	// --- Lati inversi (solo navigazione, nessuna cascata) ---
+	// Servono per i casi d'uso "i miei biglietti" e "le mie recensioni".
+	// Nessun cascade: eliminare un utente non e' un caso d'uso previsto e
+	// non deve trascinare via biglietti o recensioni.
+
+	@OneToMany(mappedBy = "utente")
+	private List<Biglietto> biglietti = new ArrayList<>();
+
+	@OneToMany(mappedBy = "utente")
+	private List<Recensione> recensioni = new ArrayList<>();
 
 	public Utente() {
 	}
@@ -72,6 +86,22 @@ public class Utente {
 
 	public void setRuolo(String ruolo) {
 		this.ruolo = ruolo;
+	}
+
+	public List<Biglietto> getBiglietti() {
+		return biglietti;
+	}
+
+	public void setBiglietti(List<Biglietto> biglietti) {
+		this.biglietti = biglietti;
+	}
+
+	public List<Recensione> getRecensioni() {
+		return recensioni;
+	}
+
+	public void setRecensioni(List<Recensione> recensioni) {
+		this.recensioni = recensioni;
 	}
 
 	@Override

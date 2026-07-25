@@ -1,6 +1,8 @@
 package it.uniroma3.siw.ferento.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -8,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -43,6 +46,13 @@ public class Settore {
 	@Column(nullable = false)
 	private Integer capienza;
 
+	// --- Lato inverso (solo navigazione, nessuna cascata) ---
+	// Biglietti venduti per questo settore (attraverso tutti gli
+	// spettacoli). Nessun cascade: i settori sono condivisi e permanenti,
+	// non si eliminano, e non devono trascinare via biglietti.
+	@OneToMany(mappedBy = "settore")
+	private List<Biglietto> biglietti = new ArrayList<>();
+
 	public Settore() {
 	}
 
@@ -76,6 +86,14 @@ public class Settore {
 
 	public void setCapienza(Integer capienza) {
 		this.capienza = capienza;
+	}
+
+	public List<Biglietto> getBiglietti() {
+		return biglietti;
+	}
+
+	public void setBiglietti(List<Biglietto> biglietti) {
+		this.biglietti = biglietti;
 	}
 
 	@Override
