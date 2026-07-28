@@ -1,0 +1,95 @@
+/*
+ * Foglio di stile del sito "Festival di Ferento", a tema teatro romano.
+ * Le variabili sono definite una sola volta qui in :root e riusate ovunque
+ * (vedi slide "Variabili CSS" del corso): per cambiare un colore o un font
+ * su tutto il sito basta modificare una riga.
+ *
+ * Caricato DOPO bootstrap.min.css in fragments/common.html: le regole qui
+ * hanno la precedenza su quelle di Bootstrap con lo stesso selettore.
+ */
+
+:root {
+  /* --- Colori --- */
+  --color-primary: #8b3a2f;       /* terracotta / rosso pompeiano */
+  --color-primary-dark: #63271f;  /* terracotta scuro, per hover/active */
+  --color-primary-light: #f3e6e2; /* terracotta chiarissimo, per badge/sfondi */
+  --color-accent: #c9a227;        /* oro/ocra, colore di accento (stelle, dettagli) */
+  --color-accent-dark: #9a7a15;   /* oro scuro, per hover sull'accento */
+  --color-bg: #faf6f0;            /* avorio caldo, sfondo delle pagine */
+  --color-text: #3a3230;          /* bruno scuro, colore del testo */
+
+  /* --- Caratteri --- */
+  --font-titoli: 'Cinzel', serif;              /* titoli: serif d'ispirazione romana */
+  --font-corpo: 'Inter', system-ui, sans-serif; /* testo e interfaccia: sans leggibile */
+}
+
+/* --- Base della pagina --- */
+body {
+  font-family: var(--font-corpo);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* --- Titoli in Cinzel --- */
+/* Applichiamo il font dei titoli agli heading principali, al nome del sito
+   nella navbar e ai titoli delle card. */
+h1, h2, h3,
+.navbar-brand,
+.card-title {
+  font-family: var(--font-titoli);
+  color: var(--color-text);
+}
+
+/* --- Navbar --- */
+.navbar.bg-dark {
+  background-color: var(--color-primary) !important;
+}
+/* Il brand ha bisogno di restare chiaro sullo sfondo terracotta scuro. */
+.navbar-dark .navbar-brand {
+  color: var(--color-bg);
+}
+
+/* --- Sezione hero della home --- */
+.hero {
+  background-color: var(--color-primary-light);
+  border-left: 6px solid var(--color-primary);
+}
+
+/* --- Bottoni principali --- */
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+/* --- Bottoni "outline" principali --- */
+.btn-outline-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+/* --- Intestazioni delle tabelle scure --- */
+.table-dark {
+  --bs-table-bg: var(--color-primary);
+  --bs-table-border-color: var(--color-primary-dark);
+}
+
+/* --- Link --- */
+a {
+  color: var(--color-primary-dark);
+}
+a:hover {
+  color: var(--color-accent-dark);
+}

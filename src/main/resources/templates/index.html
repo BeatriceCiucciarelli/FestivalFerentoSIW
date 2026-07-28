@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/common :: head(title='Festival di Ferento')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+    <div class="p-5 mb-4 rounded-3 hero">
+        <h1 class="display-5 fw-bold">Festival di Ferento</h1>
+        <p class="col-md-8 fs-5">
+            La stagione teatrale nell'antico teatro romano di Ferento.
+            Scopri gli spettacoli in cartellone, gli artisti e acquista
+            i tuoi biglietti.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Spettacoli</h5>
+                    <p class="card-text">Sfoglia il cartellone della stagione: date, generi e disponibilità.</p>
+                    <a th:href="@{/spettacoli}" class="btn btn-primary">Vai agli spettacoli</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Artisti</h5>
+                    <p class="card-text">Conosci le compagnie e gli artisti che animano il festival.</p>
+                    <a th:href="@{/artisti}" class="btn btn-primary">Vai agli artisti</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
