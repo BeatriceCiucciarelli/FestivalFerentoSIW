@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='Spettacoli')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+    <h1 class="mb-4">Spettacoli in cartellone</h1>
+
+    <!-- Messaggio se non ci sono spettacoli -->
+    <p th:if="${spettacoli.isEmpty()}" class="text-muted">
+        Nessuno spettacolo in programma al momento.
+    </p>
+
+    <!-- La griglia: il div contenitore usa CSS Grid (classe .griglia-spettacoli),
+         ogni spettacolo diventa una scheda .card-spettacolo. -->
+    <div class="griglia-spettacoli">
+        <a th:each="spettacolo : ${spettacoli}"
+           th:href="@{/spettacoli/{id}(id=${spettacolo.id})}"
+           class="card-spettacolo">
+
+            <!-- Locandina: se il campo immagine e' valorizzato mostriamo il
+                 file, altrimenti un segnaposto terracotta con il titolo. -->
+            <img th:if="${spettacolo.immagine != null}"
+                 th:src="@{'/images/' + ${spettacolo.immagine}}"
+                 th:alt="${spettacolo.titolo}" class="locandina" />
+            <div th:unless="${spettacolo.immagine != null}" class="locandina-placeholder">
+                <span th:text="${spettacolo.titolo}">Titolo</span>
+            </div>
+
+            <div class="card-spettacolo-corpo">
+                <span class="badge-genere" th:text="${spettacolo.genere}">GENERE</span>
+                <h2 class="card-spettacolo-titolo" th:text="${spettacolo.titolo}">Titolo</h2>
+                <p class="card-spettacolo-data"
+                   th:text="${#temporals.format(spettacolo.dataOra, 'dd/MM/yyyy - HH:mm')}">data</p>
+                <p class="card-spettacolo-artista" th:text="${spettacolo.artista.nome}">artista</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -93,3 +93,98 @@ a {
 a:hover {
   color: var(--color-accent-dark);
 }
+
+/* ============================================================
+   Catalogo spettacoli
+   ============================================================ */
+
+/* La griglia responsive.
+   - display: grid attiva il layout a griglia sul contenitore;
+   - grid-template-columns definisce le colonne;
+   - repeat(auto-fill, minmax(260px, 1fr)) crea AUTOMATICAMENTE quante
+     colonne ci stanno: ognuna larga minimo 260px, massimo una frazione
+     uguale dello spazio disponibile (1fr). Cosi' il numero di colonne si
+     adatta alla larghezza dello schermo senza bisogno di media query;
+   - gap e' lo spazio tra le celle. */
+.griglia-spettacoli {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* La singola scheda.
+   transition prepara l'animazione di transform e box-shadow: quando in
+   :hover cambiano, il passaggio avviene in 0.15s invece che di scatto. */
+.card-spettacolo {
+  display: block;
+  background: #fff;
+  border: 1px solid #e3d8cc;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+/* Al passaggio del mouse la scheda si solleva di 4px e prende un'ombra. */
+.card-spettacolo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  color: var(--color-text);
+}
+
+/* Locandina reale (immagine): object-fit: cover ritaglia l'immagine per
+   riempire il riquadro senza deformarla. */
+.locandina {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Segnaposto locandina (quando non c'e' immagine). */
+.locandina-placeholder {
+  height: 160px;
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  text-align: center;
+  color: var(--color-bg);
+  font-family: var(--font-titoli);
+  font-size: 1.1rem;
+}
+
+.card-spettacolo-corpo {
+  padding: 14px;
+}
+
+/* Badge del genere (pillola terracotta chiara). */
+.badge-genere {
+  display: inline-block;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.card-spettacolo-titolo {
+  font-size: 1.2rem;
+  margin: 0 0 4px 0;
+}
+
+.card-spettacolo-data {
+  font-size: 0.85rem;
+  color: var(--color-accent-dark);
+  margin: 0 0 6px 0;
+}
+
+.card-spettacolo-artista {
+  font-size: 0.9rem;
+  color: #8a7d76;
+  margin: 0;
+}
