@@ -188,3 +188,40 @@ a:hover {
   color: #8a7d76;
   margin: 0;
 }
+
+/* ============================================================
+   Dettaglio spettacolo
+   ============================================================ */
+
+.dettaglio-locandina-img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Segnaposto locandina grande nella pagina di dettaglio. */
+.dettaglio-locandina-placeholder {
+  width: 100%;
+  min-height: 300px;
+  background: var(--color-primary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  text-align: center;
+  color: var(--color-bg);
+  font-family: var(--font-titoli);
+  font-size: 1.6rem;
+}
+
+.dettaglio-data {
+  color: var(--color-accent-dark);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.dettaglio-artista {
+  color: #8a7d76;
+  font-style: italic;
+}

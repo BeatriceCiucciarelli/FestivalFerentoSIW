@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title=${spettacolo.titolo})}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+
+    <p class="mb-3">
+        <a th:href="@{/spettacoli}">&larr; Torna al cartellone</a>
+    </p>
+
+    <div class="row g-4">
+        <!-- Colonna sinistra: locandina -->
+        <div class="col-md-5">
+            <img th:if="${spettacolo.immagine != null}"
+                 th:src="@{'/images/' + ${spettacolo.immagine}}"
+                 th:alt="${spettacolo.titolo}" class="dettaglio-locandina-img" />
+            <div th:unless="${spettacolo.immagine != null}" class="dettaglio-locandina-placeholder">
+                <span th:text="${spettacolo.titolo}">Titolo</span>
+            </div>
+        </div>
+
+        <!-- Colonna destra: informazioni -->
+        <div class="col-md-7">
+            <span class="badge-genere" th:text="${spettacolo.genere}">GENERE</span>
+            <h1 class="mt-2" th:text="${spettacolo.titolo}">Titolo</h1>
+            <p class="dettaglio-data"
+               th:text="${#temporals.format(spettacolo.dataOra, 'dd/MM/yyyy - HH:mm')}">data</p>
+            <p class="dettaglio-artista">
+                di <span th:text="${spettacolo.artista.nome}">artista</span>
+            </p>
+            <p th:if="${spettacolo.descrizione != null}" th:text="${spettacolo.descrizione}"
+               class="mt-3">descrizione</p>
+        </div>
+    </div>
+
+    <!-- Settori e prezzi -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <h2 class="h4 mb-3">Settori e prezzi</h2>
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Settore</th>
+                        <th>Prezzo</th>
+                        <th>Capienza</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="settore : ${settori}">
+                        <td th:text="${settore.nome}">Settore</td>
+                        <td th:text="${#numbers.formatDecimal(settore.prezzo, 1, 'NONE', 2, 'COMMA')} + ' €'">0,00 €</td>
+                        <td th:text="${settore.capienza}">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Qui, nei prossimi passi, arriveranno il widget di acquisto (React)
+         e la sezione delle recensioni. -->
+
+</div>
+
+</body>
+</html>

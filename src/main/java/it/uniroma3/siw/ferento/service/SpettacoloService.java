@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.uniroma3.siw.ferento.exception.SpettacoloNonTrovatoException;
 import it.uniroma3.siw.ferento.model.Spettacolo;
 import it.uniroma3.siw.ferento.repository.SpettacoloRepository;
 
@@ -20,16 +21,24 @@ public class SpettacoloService {
 
 	/*
 	 * Restituisce tutti gli spettacoli, ordinati per data crescente.
-	 *
-	 * @Transactional(readOnly = true): operazione di sola lettura. Segnala
-	 * a Hibernate che non ci saranno modifiche da tracciare, un'ottimizzazione
-	 * adatta alle query di consultazione.
-	 *
-	 * Sort.by(...) chiede al repository di ordinare gia' a livello di query
-	 * SQL (ORDER BY data_ora), invece di ordinare in memoria dopo.
+	 * @Transactional(readOnly = true): operazione di sola lettura.
+	 * Sort.by(...) ordina gia' a livello di query SQL (ORDER BY data_ora).
 	 */
 	@Transactional(readOnly = true)
 	public List<Spettacolo> findAll() {
 		return this.spettacoloRepository.findAll(Sort.by(Sort.Direction.ASC, "dataOra"));
+	}
+
+	/*
+	 * Restituisce un singolo spettacolo dato l'id.
+	 *
+	 * findById restituisce un Optional (lo spettacolo potrebbe non esistere);
+	 * orElseThrow lancia la nostra eccezione se l'Optional e' vuoto, cosi'
+	 * il chiamante riceve uno spettacolo garantito oppure un 404.
+	 */
+	@Transactional(readOnly = true)
+	public Spettacolo findById(Long id) {
+		return this.spettacoloRepository.findById(id)
+			.orElseThrow(() -> new SpettacoloNonTrovatoException());
 	}
 }
