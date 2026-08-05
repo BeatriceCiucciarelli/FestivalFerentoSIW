@@ -58,8 +58,36 @@
         </div>
     </div>
 
-    <!-- Qui, nei prossimi passi, arriveranno il widget di acquisto (React)
-         e la sezione delle recensioni. -->
+    <!-- Qui, nel prossimo passo, arrivera' il widget di acquisto (React). -->
+
+    <!-- Recensioni -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h4 mb-0">Recensioni</h2>
+                <!-- Media: mostrata solo se c'e' almeno una recensione -->
+                <div th:if="${!recensioni.isEmpty()}" class="text-end">
+                    <span th:replace="~{fragments/common :: stelle(${votoMedioStelle})}"></span>
+                    <span class="ms-1 text-muted"
+                          th:text="${#numbers.formatDecimal(votoMedio, 1, 'NONE', 1, 'COMMA')} + ' / 5'">0 / 5</span>
+                    <span class="text-muted" th:text="'(' + ${recensioni.size()} + ')'">(0)</span>
+                </div>
+            </div>
+
+            <p th:if="${recensioni.isEmpty()}" class="text-muted mb-0">
+                Ancora nessuna recensione per questo spettacolo.
+            </p>
+
+            <div th:each="recensione : ${recensioni}" class="recensione">
+                <div class="recensione-testa">
+                    <span class="recensione-autore" th:text="${recensione.utente.username}">utente</span>
+                    <span class="recensione-stelle"
+                          th:replace="~{fragments/common :: stelle(${recensione.voto})}"></span>
+                </div>
+                <p class="recensione-testo mb-0" th:text="${recensione.testo}">testo</p>
+            </div>
+        </div>
+    </div>
 
 </div>
 

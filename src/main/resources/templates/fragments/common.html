@@ -73,5 +73,12 @@
     </div>
 </nav>
 
+<!-- Fragment "stelle": disegna 5 stelle, piene fino al voto e vuote dopo.
+     Si richiama con th:replace="~{fragments/common :: stelle(${voto})}". -->
+<span th:fragment="stelle(voto)" class="stelle" th:remove="tag">
+    <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i &lt;= voto} ? '★' : '☆'">★</span>
+</span>
+
 </body>
 </html>

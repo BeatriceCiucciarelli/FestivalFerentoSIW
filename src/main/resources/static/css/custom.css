@@ -225,3 +225,35 @@ a:hover {
   color: #8a7d76;
   font-style: italic;
 }
+
+/* ============================================================
+   Recensioni e stelle
+   ============================================================ */
+
+/* Le stelle sono in oro/ocra. */
+.stelle {
+  color: var(--color-accent);
+  letter-spacing: 2px;
+}
+
+/* Singola recensione: separata dalle altre da una linea sottile. */
+.recensione {
+  padding: 12px 0;
+  border-top: 1px solid #eee4d8;
+}
+
+.recensione-testa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.recensione-autore {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.recensione-testo {
+  color: #5a4d47;
+}

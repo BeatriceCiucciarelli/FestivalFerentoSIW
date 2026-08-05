@@ -25,3 +25,7 @@ insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista
 insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Concerto sotto le Stelle', 'Grandi pagine sinfoniche eseguite dal vivo nel teatro romano.', '2026-08-16 21:00:00', 'MUSICA', null, 3);
 insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Carmina Burana', 'La celebre cantata scenica di Carl Orff per coro e orchestra.', '2026-08-23 21:00:00', 'MUSICA', null, 3);
 insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Aida', 'Il capolavoro di Verdi in una messa in scena suggestiva e monumentale.', '2026-08-30 21:00:00', 'OPERA', null, 4);
+
+insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Interpretazione potente, un''ora e mezza di pura tensione.', 5, 2, 1);
+insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Regia essenziale ma molto efficace, consigliato.', 4, 1, 1);
+insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Serata magica sotto le stelle, orchestra impeccabile.', 5, 2, 6);
