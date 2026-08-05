@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='Gestione spettacoli')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="mb-0">Gestione spettacoli</h1>
+        <a th:href="@{/admin/spettacoli/nuovo}" class="btn btn-primary">+ Nuovo spettacolo</a>
+    </div>
+
+    <p th:if="${spettacoli.isEmpty()}" class="text-muted">Nessuno spettacolo presente.</p>
+
+    <table th:unless="${spettacoli.isEmpty()}" class="table align-middle">
+        <thead>
+            <tr>
+                <th>Titolo</th>
+                <th>Data</th>
+                <th>Genere</th>
+                <th>Artista</th>
+                <th class="text-end">Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="spettacolo : ${spettacoli}">
+                <td th:text="${spettacolo.titolo}">Titolo</td>
+                <td th:text="${#temporals.format(spettacolo.dataOra, 'dd/MM/yyyy HH:mm')}">data</td>
+                <td th:text="${spettacolo.genere}">genere</td>
+                <td th:text="${spettacolo.artista.nome}">artista</td>
+                <td class="text-end">
+                    <a th:href="@{/admin/spettacoli/{id}/modifica(id=${spettacolo.id})}"
+                       class="btn btn-primary btn-sm">Modifica</a>
+                    <!-- L'eliminazione e' un POST (modifica lo stato del server),
+                         con richiesta di conferma prima di procedere. -->
+                    <form th:action="@{/admin/spettacoli/{id}/elimina(id=${spettacolo.id})}" method="post"
+                          class="d-inline"
+                          onsubmit="return confirm('Eliminare questo spettacolo? Verranno rimossi anche i biglietti e le recensioni collegati.');">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Elimina</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

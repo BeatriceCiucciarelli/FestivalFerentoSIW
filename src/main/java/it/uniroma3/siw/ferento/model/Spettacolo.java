@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,17 +38,15 @@ public class Spettacolo {
 	@Column(length = 2000)
 	private String descrizione;
 
-	// Data E ora della rappresentazione: LocalDateTime tiene entrambe.
-	// Non mettiamo @Future: vogliamo poter avere in catalogo sia
-	// spettacoli futuri (acquistabili) sia passati (recensibili).
+	// Data E ora della rappresentazione.
+	// @DateTimeFormat fissa il formato usato nei form (input datetime-local),
+	// sia per leggere il valore inviato sia per riempire il campo in modifica.
 	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	@Column(nullable = false)
 	private LocalDateTime dataOra;
 
-	// Genere come enum: l'insieme dei valori e' chiuso e noto in anticipo.
-	// @Enumerated(EnumType.STRING) salva sul database la stringa
-	// ("TEATRO", "DANZA"...) invece dell'indice numerico: piu' leggibile
-	// nel DB e, soprattutto, robusto se un giorno riordini le costanti.
+	// Genere come enum, salvato come stringa leggibile sul DB.
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -59,31 +59,23 @@ public class Spettacolo {
 		OPERA
 	}
 
-	// Nome del file immagine (o URL). Facoltativo: uno spettacolo puo'
-	// esistere anche senza locandina. La gestione dell'upload vero e
-	// proprio e' un bonus, per ora e' solo una stringa.
+	// Nome del file immagine (o URL). Facoltativo.
 	@Size(max = 255)
 	private String immagine;
 
-	// Lato "molti" e PROPRIETARIO della relazione con Artista.
-	// @JoinColumn crea nella tabella spettacolo la colonna artista_id,
-	// che e' la chiave esterna verso la tabella artista.
-	// nullable = false: ogni spettacolo deve avere un artista.
+	// Lato "molti" e proprietario della relazione con Artista.
 	@ManyToOne
 	@JoinColumn(name = "artista_id", nullable = false)
 	private Artista artista;
 
-	// --- Lati inversi (solo navigazione, non creano colonne) ---
+	// --- Lati inversi ---
 
-	// Biglietti venduti per questo spettacolo.
-	// cascade = ALL + orphanRemoval: eliminando lo spettacolo si eliminano
-	// anche i biglietti collegati (caso d'uso "elimina spettacolo"),
-	// evitando cosi' violazioni di foreign key.
+	// Biglietti venduti: cascade ALL + orphanRemoval => eliminando lo
+	// spettacolo si eliminano anche i biglietti collegati.
 	@OneToMany(mappedBy = "spettacolo", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Biglietto> biglietti = new ArrayList<>();
 
-	// Recensioni ricevute da questo spettacolo.
-	// Stessa cascata: una recensione non ha senso senza il suo spettacolo.
+	// Recensioni: stessa cascata.
 	@OneToMany(mappedBy = "spettacolo", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Recensione> recensioni = new ArrayList<>();
 

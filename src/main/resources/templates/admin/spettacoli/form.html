@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='Spettacolo')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container" style="max-width: 640px;">
+
+    <p class="mb-3">
+        <a th:href="@{/admin/spettacoli}">&larr; Torna alla gestione spettacoli</a>
+    </p>
+
+    <h1 class="mb-3" th:text="${spettacolo.id == null} ? 'Nuovo spettacolo' : 'Modifica spettacolo'">Spettacolo</h1>
+
+    <form th:action="${spettacolo.id == null} ? @{/admin/spettacoli} : @{/admin/spettacoli/{id}(id=${spettacolo.id})}"
+          th:object="${spettacolo}" method="post">
+
+        <div class="mb-3">
+            <label for="titolo" class="form-label">Titolo</label>
+            <input type="text" id="titolo" th:field="*{titolo}" class="form-control"
+                   th:classappend="${#fields.hasErrors('titolo')} ? 'is-invalid'" />
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}">Errore titolo</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="descrizione" class="form-label">Descrizione</label>
+            <textarea id="descrizione" th:field="*{descrizione}" rows="3" class="form-control"
+                      th:classappend="${#fields.hasErrors('descrizione')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}">Errore descrizione</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="dataOra" class="form-label">Data e ora</label>
+                <input type="datetime-local" id="dataOra" th:field="*{dataOra}" class="form-control"
+                       th:classappend="${#fields.hasErrors('dataOra')} ? 'is-invalid'" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('dataOra')}" th:errors="*{dataOra}">Errore data</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="genere" class="form-label">Genere</label>
+                <select id="genere" th:field="*{genere}" class="form-select"
+                        th:classappend="${#fields.hasErrors('genere')} ? 'is-invalid'">
+                    <option th:each="g : ${generi}" th:value="${g}" th:text="${g}">GENERE</option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('genere')}" th:errors="*{genere}">Errore genere</div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="artistaId" class="form-label">Artista</label>
+            <!-- Non usiamo th:field: inviamo l'id dell'artista in un campo a
+                 parte (artistaId), che il controller usa per recuperare
+                 l'Artista. th:selected pre-seleziona quello corrente in modifica. -->
+            <select id="artistaId" name="artistaId" class="form-select">
+                <option th:each="a : ${artisti}" th:value="${a.id}" th:text="${a.nome}"
+                        th:selected="${spettacolo.artista != null and spettacolo.artista.id == a.id}">Artista</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="immagine" class="form-label">Immagine (nome file, opzionale)</label>
+            <input type="text" id="immagine" th:field="*{immagine}" class="form-control"
+                   placeholder="es. edipo-re.jpg" />
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+                th:text="${spettacolo.id == null} ? 'Crea spettacolo' : 'Salva modifiche'">Salva</button>
+    </form>
+
+</div>
+
+</body>
+</html>
