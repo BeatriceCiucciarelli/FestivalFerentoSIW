@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='Artista')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container" style="max-width: 560px;">
+
+    <p class="mb-3">
+        <a th:href="@{/admin/artisti}">&larr; Torna alla gestione artisti</a>
+    </p>
+
+    <h1 class="mb-3" th:text="${artista.id == null} ? 'Nuovo artista' : 'Modifica artista'">Artista</h1>
+
+    <!-- action: creazione -> POST /admin/artisti ; modifica -> POST /admin/artisti/{id} -->
+    <form th:action="${artista.id == null} ? @{/admin/artisti} : @{/admin/artisti/{id}(id=${artista.id})}"
+          th:object="${artista}" method="post">
+
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" id="nome" th:field="*{nome}" class="form-control"
+                   th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" />
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Errore nome</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="descrizione" class="form-label">Descrizione</label>
+            <textarea id="descrizione" th:field="*{descrizione}" rows="4" class="form-control"
+                      th:classappend="${#fields.hasErrors('descrizione')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}">Errore descrizione</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+                th:text="${artista.id == null} ? 'Crea artista' : 'Salva modifiche'">Salva</button>
+    </form>
+
+</div>
+
+</body>
+</html>

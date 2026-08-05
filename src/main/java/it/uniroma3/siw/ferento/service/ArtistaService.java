@@ -31,4 +31,23 @@ public class ArtistaService {
 		return this.artistaRepository.findById(id)
 			.orElseThrow(() -> new ArtistaNonTrovatoException());
 	}
+
+	// Crea (o salva) un artista.
+	@Transactional
+	public Artista salva(Artista artista) {
+		return this.artistaRepository.save(artista);
+	}
+
+	/*
+	 * Aggiorna un artista esistente: carica quello sul database, vi copia i
+	 * campi modificabili dal form e salva. Caricare prima l'esistente evita
+	 * di sovrascrivere eventuali relazioni gia' presenti (i suoi spettacoli).
+	 */
+	@Transactional
+	public Artista aggiorna(Long id, Artista dati) {
+		Artista artista = this.findById(id);
+		artista.setNome(dati.getNome());
+		artista.setDescrizione(dati.getDescrizione());
+		return this.artistaRepository.save(artista);
+	}
 }

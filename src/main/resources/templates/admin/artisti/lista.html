@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='Gestione artisti')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="mb-0">Gestione artisti</h1>
+        <a th:href="@{/admin/artisti/nuovo}" class="btn btn-primary">+ Nuovo artista</a>
+    </div>
+
+    <p th:if="${artisti.isEmpty()}" class="text-muted">Nessun artista presente.</p>
+
+    <table th:unless="${artisti.isEmpty()}" class="table align-middle">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th class="text-end">Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="artista : ${artisti}">
+                <td th:text="${artista.nome}">Nome</td>
+                <td class="text-end">
+                    <a th:href="@{/artisti/{id}(id=${artista.id})}" class="btn btn-outline-primary btn-sm">Vedi</a>
+                    <a th:href="@{/admin/artisti/{id}/modifica(id=${artista.id})}" class="btn btn-primary btn-sm">Modifica</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
