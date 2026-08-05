@@ -84,6 +84,7 @@
                        class="btn btn-primary btn-sm">Scrivi una recensione</a>
                     <span th:if="${recensioneUtente != null}" class="text-muted">
                         Hai gi&agrave; recensito questo spettacolo.
+                        <a th:href="@{/recensioni/{id}/modifica(id=${recensioneUtente.id})}">Modifica</a>
                     </span>
                 </div>
                 <div sec:authorize="!isAuthenticated()" class="text-muted">

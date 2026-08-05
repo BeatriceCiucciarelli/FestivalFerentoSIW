@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.uniroma3.siw.ferento.exception.AccessoNegatoException;
+import it.uniroma3.siw.ferento.exception.RecensioneNonTrovataException;
 import it.uniroma3.siw.ferento.model.Recensione;
 import it.uniroma3.siw.ferento.model.Spettacolo;
 import it.uniroma3.siw.ferento.model.Utente;
@@ -32,22 +34,37 @@ public class RecensioneService {
 		return media != null ? media : 0.0;
 	}
 
-	// La recensione dell'utente per questo spettacolo, oppure null se non
-	// esiste. Usata dall'interfaccia per decidere cosa mostrare.
+	// La recensione dell'utente per questo spettacolo, oppure null.
 	@Transactional(readOnly = true)
 	public Recensione findRecensioneUtente(Utente utente, Spettacolo spettacolo) {
 		return this.recensioneRepository.findByUtenteAndSpettacolo(utente, spettacolo).orElse(null);
 	}
 
+	// Una recensione dato l'id (404 se non esiste).
+	@Transactional(readOnly = true)
+	public Recensione findById(Long id) {
+		return this.recensioneRepository.findById(id)
+			.orElseThrow(() -> new RecensioneNonTrovataException());
+	}
+
 	/*
-	 * Crea una nuova recensione.
-	 *
-	 * L'associazione con l'utente e con lo spettacolo avviene QUI, nel
-	 * service: il form fornisce solo voto e testo; l'utente arriva dalla
-	 * sessione (non dal form) e lo spettacolo dal suo id.
-	 *
-	 * Regola di business: un utente puo' recensire uno spettacolo una sola
-	 * volta. Se esiste gia' una sua recensione, l'operazione viene rifiutata.
+	 * Carica una recensione VERIFICANDO che appartenga all'utente indicato.
+	 * Controllo di ownership centralizzato: se l'autore non coincide con
+	 * l'utente corrente, lancia AccessoNegatoException (403).
+	 * Usato sia per mostrare il form di modifica sia per salvare.
+	 */
+	@Transactional(readOnly = true)
+	public Recensione getRecensionePropria(Long id, Utente utenteCorrente) {
+		Recensione recensione = this.findById(id);
+		if (!recensione.getUtente().equals(utenteCorrente)) {
+			throw new AccessoNegatoException();
+		}
+		return recensione;
+	}
+
+	/*
+	 * Crea una nuova recensione. L'associazione con utente e spettacolo
+	 * avviene qui; un utente puo' recensire uno spettacolo una sola volta.
 	 */
 	@Transactional
 	public Recensione crea(Recensione recensione, Utente utente, Spettacolo spettacolo) {
@@ -57,5 +74,19 @@ public class RecensioneService {
 		recensione.setUtente(utente);
 		recensione.setSpettacolo(spettacolo);
 		return this.recensioneRepository.save(recensione);
+	}
+
+	/*
+	 * Aggiorna una recensione esistente, ma solo se appartiene all'utente
+	 * corrente (verifica di ownership tramite getRecensionePropria).
+	 * Copiamo dai dati del form soltanto voto e testo: utente e spettacolo
+	 * restano quelli originali e non sono modificabili.
+	 */
+	@Transactional
+	public Recensione aggiorna(Long id, Recensione dati, Utente utenteCorrente) {
+		Recensione esistente = this.getRecensionePropria(id, utenteCorrente);
+		esistente.setVoto(dati.getVoto());
+		esistente.setTesto(dati.getTesto());
+		return this.recensioneRepository.save(esistente);
 	}
 }

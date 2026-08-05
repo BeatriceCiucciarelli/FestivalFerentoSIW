@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,14 +35,12 @@ public class RecensioneController {
 		this.utenteService = utenteService;
 	}
 
-	// GET /recensioni/nuova?spettacoloId=X : mostra il form di scrittura.
+	// GET /recensioni/nuova?spettacoloId=X : form di scrittura.
 	@GetMapping("/nuova")
 	public String nuovaRecensione(@RequestParam("spettacoloId") Long spettacoloId, Model model, Principal principal) {
 		Spettacolo spettacolo = this.spettacoloService.findById(spettacoloId);
 		Utente utente = this.utenteService.getByUsername(principal.getName());
 
-		// Se l'utente ha gia' recensito, non ha senso mostrare il form:
-		// lo riportiamo al dettaglio.
 		if (this.recensioneService.findRecensioneUtente(utente, spettacolo) != null) {
 			return "redirect:/spettacoli/" + spettacoloId;
 		}
@@ -59,7 +58,6 @@ public class RecensioneController {
 
 		Spettacolo spettacolo = this.spettacoloService.findById(spettacoloId);
 
-		// Se voto o testo non sono validi, torniamo al form mostrando gli errori.
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("spettacolo", spettacolo);
 			return "recensioni/form";
@@ -68,7 +66,40 @@ public class RecensioneController {
 		Utente utente = this.utenteService.getByUsername(principal.getName());
 		this.recensioneService.crea(recensione, utente, spettacolo);
 
-		// Post-Redirect-Get verso il dettaglio dello spettacolo.
 		return "redirect:/spettacoli/" + spettacoloId;
+	}
+
+	// GET /recensioni/{id}/modifica : form di modifica, precompilato.
+	// getRecensionePropria verifica che la recensione sia dell'utente
+	// loggato: chi non e' l'autore riceve un 403 e non vede nemmeno il form.
+	@GetMapping("/{id}/modifica")
+	public String modificaRecensione(@PathVariable("id") Long id, Model model, Principal principal) {
+		Utente utente = this.utenteService.getByUsername(principal.getName());
+		Recensione recensione = this.recensioneService.getRecensionePropria(id, utente);
+
+		model.addAttribute("recensione", recensione);
+		model.addAttribute("spettacolo", recensione.getSpettacolo());
+		return "recensioni/form";
+	}
+
+	// POST /recensioni/{id} : salva le modifiche.
+	// La verifica di ownership vera avviene nel service (aggiorna).
+	@PostMapping("/{id}")
+	public String aggiornaRecensione(@PathVariable("id") Long id,
+			@Valid @ModelAttribute("recensione") Recensione recensione,
+			BindingResult bindingResult, Model model, Principal principal) {
+
+		Utente utente = this.utenteService.getByUsername(principal.getName());
+		// Carica (e verifica proprieta') per conoscere lo spettacolo, utile
+		// sia in caso di errori di validazione sia per il redirect finale.
+		Recensione esistente = this.recensioneService.getRecensionePropria(id, utente);
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("spettacolo", esistente.getSpettacolo());
+			return "recensioni/form";
+		}
+
+		this.recensioneService.aggiorna(id, recensione, utente);
+		return "redirect:/spettacoli/" + esistente.getSpettacolo().getId();
 	}
 }
