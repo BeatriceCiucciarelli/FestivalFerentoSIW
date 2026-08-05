@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title=${artista.nome})}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+
+    <p class="mb-3">
+        <a th:href="@{/artisti}">&larr; Torna agli artisti</a>
+    </p>
+
+    <h1 th:text="${artista.nome}">Nome artista</h1>
+    <p th:if="${artista.descrizione != null}" th:text="${artista.descrizione}" class="mt-2">descrizione</p>
+
+    <h2 class="h4 mt-4 mb-3">Spettacoli</h2>
+
+    <!-- Accediamo a artista.spettacoli (relazione LAZY): funziona nel
+         template grazie a Open Session In View. -->
+    <p th:if="${artista.spettacoli.isEmpty()}" class="text-muted">
+        Nessuno spettacolo per questo artista.
+    </p>
+
+    <ul class="lista-spettacoli-artista">
+        <li th:each="spettacolo : ${artista.spettacoli}">
+            <a th:href="@{/spettacoli/{id}(id=${spettacolo.id})}" th:text="${spettacolo.titolo}">Titolo</a>
+            <span class="text-muted"
+                  th:text="' — ' + ${#temporals.format(spettacolo.dataOra, 'dd/MM/yyyy')} + ' · ' + ${spettacolo.genere}">
+                data · genere
+            </span>
+        </li>
+    </ul>
+
+</div>
+
+</body>
+</html>

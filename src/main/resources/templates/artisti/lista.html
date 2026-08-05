@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='Artisti')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+    <h1 class="mb-4">Artisti del festival</h1>
+
+    <p th:if="${artisti.isEmpty()}" class="text-muted">Nessun artista disponibile.</p>
+
+    <div class="griglia-artisti">
+        <a th:each="artista : ${artisti}"
+           th:href="@{/artisti/{id}(id=${artista.id})}"
+           class="card-spettacolo">
+            <div class="card-spettacolo-corpo">
+                <h2 class="card-spettacolo-titolo" th:text="${artista.nome}">Nome artista</h2>
+                <p class="card-spettacolo-artista" th:text="${artista.descrizione}">descrizione</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -106,7 +106,8 @@ a:hover {
      uguale dello spazio disponibile (1fr). Cosi' il numero di colonne si
      adatta alla larghezza dello schermo senza bisogno di media query;
    - gap e' lo spazio tra le celle. */
-.griglia-spettacoli {
+.griglia-spettacoli,
+.griglia-artisti {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
@@ -256,4 +257,15 @@ a:hover {
 
 .recensione-testo {
   color: #5a4d47;
+}
+
+/* Lista degli spettacoli nella pagina di dettaglio di un artista. */
+.lista-spettacoli-artista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lista-spettacoli-artista li {
+  padding: 8px 0;
+  border-top: 1px solid #eee4d8;
 }
