@@ -1,5 +1,6 @@
 package it.uniroma3.siw.ferento.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,23 +23,18 @@ public class Biglietto {
 	private Long id;
 
 	// Un Biglietto rappresenta UN ACQUISTO: quantita indica quanti posti
-	// sono stati comprati in una sola operazione. La disponibilita' di un
-	// settore si calcolera' quindi come capienza - SOMMA(quantita).
+	// sono stati comprati in una sola operazione.
 	@NotNull
 	@Min(value = 1)
 	@Column(nullable = false)
 	private Integer quantita;
 
-	// Istante dell'acquisto. Non e' inserito dall'utente: lo valorizza il
-	// service al momento della creazione, con la data/ora corrente.
+	// Istante dell'acquisto, valorizzato dal service al momento della vendita.
 	@NotNull
 	@Column(nullable = false)
 	private LocalDateTime dataAcquisto;
 
 	// --- Le tre relazioni che fanno di Biglietto un'entita' "ponte" ---
-	// Ciascuna @ManyToOne genera una chiave esterna nella tabella biglietto.
-	// Tutte nullable = false: un biglietto senza utente, spettacolo o
-	// settore non avrebbe senso.
 
 	@ManyToOne
 	@JoinColumn(name = "utente_id", nullable = false)
@@ -52,6 +49,19 @@ public class Biglietto {
 	private Settore settore;
 
 	public Biglietto() {
+	}
+
+	/*
+	 * Prezzo totale dell'acquisto = prezzo del settore x quantita'.
+	 * @Transient: e' un valore CALCOLATO, non una colonna del database;
+	 * viene ricalcolato ogni volta che serve, non memorizzato.
+	 */
+	@Transient
+	public BigDecimal getPrezzoTotale() {
+		if (this.settore == null || this.quantita == null) {
+			return BigDecimal.ZERO;
+		}
+		return this.settore.getPrezzo().multiply(BigDecimal.valueOf(this.quantita));
 	}
 
 	public Long getId() {

@@ -11,6 +11,10 @@
         <a th:href="@{/spettacoli}">&larr; Torna al cartellone</a>
     </p>
 
+    <div th:if="${param.erroreAcquisto}" class="alert alert-danger">
+        Posti non disponibili nella quantit&agrave; richiesta. Riprova con un numero inferiore.
+    </div>
+
     <div class="row g-4">
         <!-- Colonna sinistra: locandina -->
         <div class="col-md-5">
@@ -65,7 +69,45 @@
         </div>
     </div>
 
-    <!-- Qui, nel prossimo passo, arrivera' il widget di acquisto (React). -->
+    <!-- Acquisto biglietti (versione server; sara' sostituita dal widget React). -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <h2 class="h4 mb-3">Acquista biglietti</h2>
+
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/biglietti}" method="post" class="row g-3 align-items-end">
+                    <input type="hidden" name="spettacoloId" th:value="${spettacolo.id}" />
+
+                    <div class="col-md-6">
+                        <label for="settoreId" class="form-label">Settore</label>
+                        <select id="settoreId" name="settoreId" class="form-select">
+                            <option th:each="d : ${disponibilita}" th:value="${d.settore.id}"
+                                    th:disabled="${d.postiDisponibili == 0}"
+                                    th:text="${d.settore.nome}
+                                             + ' — ' + ${#numbers.formatDecimal(d.settore.prezzo, 1, 'NONE', 2, 'COMMA')} + ' €'
+                                             + ' (' + ${d.postiDisponibili} + ' disp.)'">Settore</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="quantita" class="form-label">Quantit&agrave;</label>
+                        <input type="number" id="quantita" name="quantita" class="form-control" min="1" value="1" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Acquista</button>
+                    </div>
+                </form>
+                <p class="text-muted mt-2 mb-0" style="font-size:0.85rem;">
+                    L'acquisto &egrave; simulato: nessun pagamento reale viene effettuato.
+                </p>
+            </div>
+
+            <div sec:authorize="!isAuthenticated()" class="text-muted">
+                <a th:href="@{/login}">Accedi</a> per acquistare i biglietti.
+            </div>
+        </div>
+    </div>
 
     <!-- Recensioni -->
     <div class="card mt-4">

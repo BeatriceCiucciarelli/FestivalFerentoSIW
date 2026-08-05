@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='I miei biglietti')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container">
+    <h1 class="mb-4">I miei biglietti</h1>
+
+    <p th:if="${biglietti.isEmpty()}" class="text-muted">
+        Non hai ancora acquistato biglietti. <a th:href="@{/spettacoli}">Vai al cartellone</a>.
+    </p>
+
+    <table th:unless="${biglietti.isEmpty()}" class="table align-middle">
+        <thead>
+            <tr>
+                <th>Spettacolo</th>
+                <th>Data spettacolo</th>
+                <th>Settore</th>
+                <th>Quantit&agrave;</th>
+                <th>Totale</th>
+                <th>Acquistato il</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="b : ${biglietti}">
+                <td>
+                    <a th:href="@{/spettacoli/{id}(id=${b.spettacolo.id})}" th:text="${b.spettacolo.titolo}">Titolo</a>
+                </td>
+                <td th:text="${#temporals.format(b.spettacolo.dataOra, 'dd/MM/yyyy HH:mm')}">data</td>
+                <td th:text="${b.settore.nome}">settore</td>
+                <td th:text="${b.quantita}">1</td>
+                <td th:text="${#numbers.formatDecimal(b.prezzoTotale, 1, 'NONE', 2, 'COMMA')} + ' €'">0,00 €</td>
+                <td th:text="${#temporals.format(b.dataAcquisto, 'dd/MM/yyyy HH:mm')}">acquisto</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

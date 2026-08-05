@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.uniroma3.siw.ferento.exception.SettoreNonTrovatoException;
 import it.uniroma3.siw.ferento.model.Settore;
 import it.uniroma3.siw.ferento.repository.SettoreRepository;
 
@@ -18,13 +19,16 @@ public class SettoreService {
 		this.settoreRepository = settoreRepository;
 	}
 
-	/*
-	 * Tutti i settori, ordinati per prezzo crescente.
-	 * I settori sono condivisi da tutti gli spettacoli (location fissa),
-	 * quindi questa lista vale per qualunque spettacolo.
-	 */
+	// Tutti i settori, ordinati per prezzo crescente.
 	@Transactional(readOnly = true)
 	public List<Settore> findAll() {
 		return this.settoreRepository.findAll(Sort.by(Sort.Direction.ASC, "prezzo"));
+	}
+
+	// Un singolo settore (404 se non esiste).
+	@Transactional(readOnly = true)
+	public Settore findById(Long id) {
+		return this.settoreRepository.findById(id)
+			.orElseThrow(() -> new SettoreNonTrovatoException());
 	}
 }
