@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/common :: head(title=${spettacolo.titolo})}"></head>
 <body>
 <nav th:replace="~{fragments/common :: nav}"></nav>
@@ -71,6 +72,22 @@
                     <span class="ms-1 text-muted"
                           th:text="${#numbers.formatDecimal(votoMedio, 1, 'NONE', 1, 'COMMA')} + ' / 5'">0 / 5</span>
                     <span class="text-muted" th:text="'(' + ${recensioni.size()} + ')'">(0)</span>
+                </div>
+            </div>
+
+            <!-- Azioni per l'utente: scrivere una recensione, avviso "gia'
+                 recensito", oppure invito ad accedere se anonimo. -->
+            <div class="mb-3">
+                <div sec:authorize="isAuthenticated()">
+                    <a th:if="${recensioneUtente == null}"
+                       th:href="@{/recensioni/nuova(spettacoloId=${spettacolo.id})}"
+                       class="btn btn-primary btn-sm">Scrivi una recensione</a>
+                    <span th:if="${recensioneUtente != null}" class="text-muted">
+                        Hai gi&agrave; recensito questo spettacolo.
+                    </span>
+                </div>
+                <div sec:authorize="!isAuthenticated()" class="text-muted">
+                    <a th:href="@{/login}">Accedi</a> per lasciare una recensione.
                 </div>
             </div>
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(title='Scrivi una recensione')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: nav}"></nav>
+
+<div class="container" style="max-width: 560px;">
+
+    <p class="mb-3">
+        <a th:href="@{/spettacoli/{id}(id=${spettacolo.id})}">&larr; Torna allo spettacolo</a>
+    </p>
+
+    <h1 class="mb-1">Scrivi una recensione</h1>
+    <p class="text-muted" th:text="${spettacolo.titolo}">Titolo spettacolo</p>
+
+    <!-- th:object collega il form all'oggetto recensione (voto e testo).
+         L'id dello spettacolo viaggia in un campo nascosto. -->
+    <form th:action="@{/recensioni}" th:object="${recensione}" method="post" class="mt-3">
+        <input type="hidden" name="spettacoloId" th:value="${spettacolo.id}" />
+
+        <div class="mb-3">
+            <label for="voto" class="form-label">Voto</label>
+            <select id="voto" th:field="*{voto}" class="form-select"
+                    th:classappend="${#fields.hasErrors('voto')} ? 'is-invalid'">
+                <option th:value="5">★★★★★ (5)</option>
+                <option th:value="4">★★★★ (4)</option>
+                <option th:value="3">★★★ (3)</option>
+                <option th:value="2">★★ (2)</option>
+                <option th:value="1">★ (1)</option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}">Errore voto</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="testo" class="form-label">La tua recensione</label>
+            <textarea id="testo" th:field="*{testo}" rows="4" class="form-control"
+                      th:classappend="${#fields.hasErrors('testo')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}">Errore testo</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Pubblica recensione</button>
+    </form>
+
+</div>
+
+</body>
+</html>

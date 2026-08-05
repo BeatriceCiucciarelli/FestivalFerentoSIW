@@ -11,9 +11,6 @@ import it.uniroma3.siw.ferento.repository.UtenteRepository;
 @Service
 public class UtenteService {
 
-	// Dipendenze dichiarate come campi final e ricevute dal costruttore
-	// (costruttore injection): lo stile preferito perche' rende esplicite
-	// le dipendenze del service e ne facilita il test.
 	private final UtenteRepository utenteRepository;
 	private final PasswordEncoder passwordEncoder;
 
@@ -23,18 +20,8 @@ public class UtenteService {
 	}
 
 	/*
-	 * Registra un nuovo utente.
-	 *
-	 * @Transactional (di scrittura): il metodo modifica lo stato del
-	 * sistema. Il controllo di esistenza e il salvataggio avvengono nella
-	 * stessa transazione, come un blocco unico e coerente.
-	 *
-	 * Passi:
-	 *  1. se l'username e' gia' preso, interrompe lanciando l'eccezione;
-	 *  2. cifra la password con BCrypt (non salviamo MAI la password in
-	 *     chiaro);
-	 *  3. assegna il ruolo "USER" di default (un nuovo iscritto non e' admin);
-	 *  4. salva e restituisce l'utente persistito.
+	 * Registra un nuovo utente: controlla che l'username sia libero, cifra
+	 * la password con BCrypt, assegna il ruolo USER e salva.
 	 */
 	@Transactional
 	public Utente registraNuovoUtente(Utente utente) {
@@ -46,5 +33,15 @@ public class UtenteService {
 		utente.setRuolo("USER");
 
 		return this.utenteRepository.save(utente);
+	}
+
+	/*
+	 * Recupera l'Utente dato l'username. Usato per risalire all'utente
+	 * loggato a partire dal Principal (che contiene solo l'username).
+	 */
+	@Transactional(readOnly = true)
+	public Utente getByUsername(String username) {
+		return this.utenteRepository.findByUsername(username)
+			.orElseThrow(() -> new IllegalStateException("Utente non trovato: " + username));
 	}
 }
