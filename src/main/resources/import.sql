@@ -29,3 +29,6 @@ insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista
 insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Interpretazione potente, un''ora e mezza di pura tensione.', 5, 2, 1);
 insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Regia essenziale ma molto efficace, consigliato.', 4, 1, 1);
 insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Serata magica sotto le stelle, orchestra impeccabile.', 5, 2, 6);
+
+insert into biglietto (quantita, data_acquisto, utente_id, spettacolo_id, settore_id) values (3, '2026-06-01 10:00:00', 2, 1, 1);
+insert into biglietto (quantita, data_acquisto, utente_id, spettacolo_id, settore_id) values (2, '2026-06-02 15:30:00', 2, 1, 3);

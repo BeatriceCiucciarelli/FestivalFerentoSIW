@@ -15,6 +15,7 @@ import it.uniroma3.siw.ferento.model.Artista;
 import it.uniroma3.siw.ferento.model.Spettacolo;
 import it.uniroma3.siw.ferento.model.Utente;
 import it.uniroma3.siw.ferento.service.ArtistaService;
+import it.uniroma3.siw.ferento.service.BigliettoService;
 import it.uniroma3.siw.ferento.service.RecensioneService;
 import it.uniroma3.siw.ferento.service.SettoreService;
 import it.uniroma3.siw.ferento.service.SpettacoloService;
@@ -29,14 +30,17 @@ public class SpettacoloController {
 	private final RecensioneService recensioneService;
 	private final UtenteService utenteService;
 	private final ArtistaService artistaService;
+	private final BigliettoService bigliettoService;
 
 	public SpettacoloController(SpettacoloService spettacoloService, SettoreService settoreService,
-			RecensioneService recensioneService, UtenteService utenteService, ArtistaService artistaService) {
+			RecensioneService recensioneService, UtenteService utenteService, ArtistaService artistaService,
+			BigliettoService bigliettoService) {
 		this.spettacoloService = spettacoloService;
 		this.settoreService = settoreService;
 		this.recensioneService = recensioneService;
 		this.utenteService = utenteService;
 		this.artistaService = artistaService;
+		this.bigliettoService = bigliettoService;
 	}
 
 	// ---------- Parte pubblica ----------
@@ -53,7 +57,8 @@ public class SpettacoloController {
 		double votoMedio = this.recensioneService.votoMedio(spettacolo);
 
 		model.addAttribute("spettacolo", spettacolo);
-		model.addAttribute("settori", this.settoreService.findAll());
+		model.addAttribute("disponibilita",
+			this.bigliettoService.disponibilitaPerSpettacolo(spettacolo, this.settoreService.findAll()));
 		model.addAttribute("recensioni", this.recensioneService.findBySpettacolo(spettacolo));
 		model.addAttribute("votoMedio", votoMedio);
 		model.addAttribute("votoMedioStelle", (int) Math.round(votoMedio));

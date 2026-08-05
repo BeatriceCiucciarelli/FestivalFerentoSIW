@@ -45,14 +45,20 @@
                     <tr>
                         <th>Settore</th>
                         <th>Prezzo</th>
-                        <th>Capienza</th>
+                        <th>Disponibilit&agrave;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="settore : ${settori}">
-                        <td th:text="${settore.nome}">Settore</td>
-                        <td th:text="${#numbers.formatDecimal(settore.prezzo, 1, 'NONE', 2, 'COMMA')} + ' €'">0,00 €</td>
-                        <td th:text="${settore.capienza}">0</td>
+                    <!-- Iteriamo sui DTO: d.settore e' il settore, d.postiDisponibili
+                         il valore calcolato (capienza - venduti). -->
+                    <tr th:each="d : ${disponibilita}">
+                        <td th:text="${d.settore.nome}">Settore</td>
+                        <td th:text="${#numbers.formatDecimal(d.settore.prezzo, 1, 'NONE', 2, 'COMMA')} + ' €'">0,00 €</td>
+                        <td>
+                            <span th:if="${d.postiDisponibili > 0}"
+                                  th:text="${d.postiDisponibili} + ' su ' + ${d.settore.capienza}">0 su 0</span>
+                            <span th:unless="${d.postiDisponibili > 0}" class="text-danger">Esaurito</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
