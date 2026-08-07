@@ -1,10 +1,44 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+########################################
+#          GLOBAL IGNORE RULES         #
+########################################
 
-### STS ###
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.iws
+*.iml
+*.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+########################################
+#          MAVEN / SPRING BOOT         #
+########################################
+
+# Maven target directory
+target/
+
+# Maven wrapper
+.mvn/
+.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+
+# Java / Spring Boot
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+# STS
 .apt_generated
 .classpath
 .factorypath
@@ -13,21 +47,49 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 build/
+
+# Allow build/target inside src (NetBeans rule)
 !**/src/main/**/build/
 !**/src/test/**/build/
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-### VS Code ###
-.vscode/
+########################################
+#          FRONTEND (React/Vite)       #
+########################################
+
+# Node modules (root)
+node_modules/
+
+# Frontend node_modules
+festival-frontend/node_modules/
+
+# Frontend build output
+festival-frontend/dist/
+festival-frontend/dist-ssr/
+
+# Vite local files
+festival-frontend/*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+########################################
+#          OTHER                       #
+########################################
+
+# Git
+.gitattributes

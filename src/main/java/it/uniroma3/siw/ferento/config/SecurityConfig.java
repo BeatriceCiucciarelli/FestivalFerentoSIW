@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -70,13 +71,15 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+			// Abilita il supporto CORS (usa le regole di CorsConfig).
+			.cors(Customizer.withDefaults())
 			.authorizeHttpRequests(auth -> auth
 				// --- Pagine pubbliche (sola consultazione, in GET) ---
 				.requestMatchers(HttpMethod.GET,
 					"/", "/login", "/register",
 					"/spettacoli", "/spettacoli/**",
 					"/artisti", "/artisti/**",
-					"/api/**",
+					"/rest/**",
 					"/css/**", "/js/**", "/images/**"
 				).permitAll()
 				// La sottomissione del form di registrazione e' pubblica.
