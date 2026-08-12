@@ -93,3 +93,6 @@ lerna-debug.log*
 
 # Git
 .gitattributes
+
+# Immagini caricate a runtime (locandine)
+uploads/

@@ -19,7 +19,10 @@ import it.uniroma3.siw.ferento.service.BigliettoService;
 import it.uniroma3.siw.ferento.service.RecensioneService;
 import it.uniroma3.siw.ferento.service.SettoreService;
 import it.uniroma3.siw.ferento.service.SpettacoloService;
+import it.uniroma3.siw.ferento.service.StorageService;
 import it.uniroma3.siw.ferento.service.UtenteService;
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.Valid;
 
 @Controller
@@ -31,16 +34,18 @@ public class SpettacoloController {
 	private final UtenteService utenteService;
 	private final ArtistaService artistaService;
 	private final BigliettoService bigliettoService;
+	private final StorageService storageService;
 
 	public SpettacoloController(SpettacoloService spettacoloService, SettoreService settoreService,
 			RecensioneService recensioneService, UtenteService utenteService, ArtistaService artistaService,
-			BigliettoService bigliettoService) {
+			BigliettoService bigliettoService, StorageService storageService) {
 		this.spettacoloService = spettacoloService;
 		this.settoreService = settoreService;
 		this.recensioneService = recensioneService;
 		this.utenteService = utenteService;
 		this.artistaService = artistaService;
 		this.bigliettoService = bigliettoService;
+		this.storageService = storageService;
 	}
 
 	// ---------- Parte pubblica ----------
@@ -95,10 +100,21 @@ public class SpettacoloController {
 
 	@PostMapping("/admin/spettacoli")
 	public String creaSpettacolo(@RequestParam("artistaId") Long artistaId,
+			@RequestParam(value = "file", required = false) MultipartFile file,
 			@Valid @ModelAttribute("spettacolo") Spettacolo spettacolo, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			this.popolaOpzioniForm(model);
 			return "admin/spettacoli/form";
+		}
+		// Se e' stato caricato un file, lo salviamo e memorizziamo il nome.
+		if (file != null && !file.isEmpty()) {
+			try {
+				spettacolo.setImmagine(this.storageService.salva(file));
+			} catch (IllegalArgumentException e) {
+				model.addAttribute("erroreFile", e.getMessage());
+				this.popolaOpzioniForm(model);
+				return "admin/spettacoli/form";
+			}
 		}
 		Artista artista = this.artistaService.findById(artistaId);
 		Spettacolo salvato = this.spettacoloService.salva(spettacolo, artista);
@@ -114,11 +130,27 @@ public class SpettacoloController {
 
 	@PostMapping("/admin/spettacoli/{id}")
 	public String aggiornaSpettacolo(@PathVariable("id") Long id, @RequestParam("artistaId") Long artistaId,
+			@RequestParam(value = "file", required = false) MultipartFile file,
 			@Valid @ModelAttribute("spettacolo") Spettacolo spettacoloForm, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			spettacoloForm.setId(id);
 			this.popolaOpzioniForm(model);
 			return "admin/spettacoli/form";
+		}
+		// Gestione immagine: se e' stato caricato un nuovo file lo salviamo,
+		// altrimenti manteniamo la locandina attuale dello spettacolo.
+		if (file != null && !file.isEmpty()) {
+			try {
+				spettacoloForm.setImmagine(this.storageService.salva(file));
+			} catch (IllegalArgumentException e) {
+				spettacoloForm.setId(id);
+				model.addAttribute("erroreFile", e.getMessage());
+				this.popolaOpzioniForm(model);
+				return "admin/spettacoli/form";
+			}
+		} else {
+			Spettacolo esistente = this.spettacoloService.findById(id);
+			spettacoloForm.setImmagine(esistente.getImmagine());
 		}
 		Artista artista = this.artistaService.findById(artistaId);
 		Spettacolo aggiornato = this.spettacoloService.aggiorna(id, spettacoloForm, artista);

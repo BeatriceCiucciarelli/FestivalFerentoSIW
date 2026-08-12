@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="360" viewBox="0 0 300 360">
+<rect width="300" height="360" fill="#7a3227"/>
+<rect x="12" y="12" width="276" height="336" fill="none" stroke="#c9a227" stroke-width="1.2"/>
+<rect x="18" y="18" width="264" height="324" fill="none" stroke="#c9a227" stroke-width="0.5" opacity="0.6"/>
+<text x="150" y="50" fill="#c9a227" font-family="Georgia, serif" font-size="13" letter-spacing="5" text-anchor="middle">TEATRO</text>
+<text x="150" y="92" fill="#faf6f0" font-family="Georgia, serif" font-size="30" font-weight="600" text-anchor="middle">Le Baccanti</text>
+
+<g stroke="#c9a227" stroke-width="1.1" fill="none" stroke-linejoin="round" stroke-linecap="round" transform="translate(150,205)">
+  <path d="M-22 40 L-22 8 Q-22 -6 0 -6 Q22 -6 22 8 L22 40 Z"/>
+  <path d="M-14 -6 Q0 6 14 -6"/>
+  <path d="M0 40 L0 56 M-16 58 L16 58"/>
+  <path d="M-60 30 Q-70 -20 -40 -50 Q-52 -10 -30 -18"/>
+  <path d="M60 30 Q70 -20 40 -50 Q52 -10 30 -18"/>
+  <path d="M-40 -50 q-10 -6 -6 -16 q10 2 6 16 z"/>
+  <path d="M40 -50 q10 -6 6 -16 q-10 2 -6 16 z"/>
+  <path d="M-30 -18 q-9 -3 -8 -13 q9 1 8 13 z"/>
+  <path d="M30 -18 q9 -3 8 -13 q-9 1 -8 13 z"/>
+  <circle cx="-46" cy="-30" r="2.4" fill="#c9a227"/>
+  <circle cx="-40" cy="-24" r="2.4" fill="#c9a227"/>
+  <circle cx="-52" cy="-24" r="2.4" fill="#c9a227"/>
+  <circle cx="46" cy="-30" r="2.4" fill="#c9a227"/>
+  <circle cx="40" cy="-24" r="2.4" fill="#c9a227"/>
+  <circle cx="52" cy="-24" r="2.4" fill="#c9a227"/>
+  <path d="M-70 60 L64 -46"/>
+  <path d="M64 -46 q6 -10 16 -8 q-2 10 -16 8 z"/>
+</g>
+<line x1="105" y1="300" x2="135" y2="300" stroke="#c9a227" stroke-width="0.8"/>
+<line x1="165" y1="300" x2="195" y2="300" stroke="#c9a227" stroke-width="0.8"/>
+<rect x="145" y="295" width="10" height="10" fill="#c9a227" transform="rotate(45 150 300)"/>
+<text x="150" y="332" fill="#e9dcc9" font-family="Georgia, serif" font-size="12" letter-spacing="3" text-anchor="middle">FESTIVAL DI FERENTO</text>
+</svg>

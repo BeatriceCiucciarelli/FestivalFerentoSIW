@@ -106,11 +106,24 @@ a:hover {
      uguale dello spazio disponibile (1fr). Cosi' il numero di colonne si
      adatta alla larghezza dello schermo senza bisogno di media query;
    - gap e' lo spazio tra le celle. */
-.griglia-spettacoli,
 .griglia-artisti {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
+}
+
+/* Catalogo spettacoli: 3 schede per riga, con locandina piu' grande.
+   Su schermi stretti scende automaticamente a 2 o 1 colonna. */
+.griglia-spettacoli {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 900px) {
+  .griglia-spettacoli { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .griglia-spettacoli { grid-template-columns: 1fr; }
 }
 
 /* La singola scheda.
@@ -137,14 +150,15 @@ a:hover {
    riempire il riquadro senza deformarla. */
 .locandina {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  height: 340px;
+  object-fit: contain;
+  background: var(--color-primary);
   display: block;
 }
 
 /* Segnaposto locandina (quando non c'e' immagine). */
 .locandina-placeholder {
-  height: 160px;
+  height: 340px;
   background: var(--color-primary);
   display: flex;
   align-items: center;

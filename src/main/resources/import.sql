@@ -17,14 +17,14 @@ insert into settore (nome, prezzo, capienza) values ('Gradinata Alta', 15.00, 20
 insert into settore (nome, prezzo, capienza) values ('Gradinata Bassa', 25.00, 150);
 insert into settore (nome, prezzo, capienza) values ('Orchestra', 40.00, 80);
 
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Edipo Re', 'La tragedia di Sofocle sul destino ineluttabile del re di Tebe.', '2026-07-12 21:00:00', 'TEATRO', null, 1);
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Antigone', 'Il conflitto tra la legge degli uomini e quella degli dei.', '2026-07-19 21:00:00', 'TEATRO', null, 1);
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Le Baccanti', 'Il dramma di Euripide sull''arrivo del culto di Dioniso a Tebe.', '2026-07-26 21:00:00', 'TEATRO', null, 1);
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Corpi nello Spazio', 'Coreografia contemporanea che dialoga con le pietre del teatro antico.', '2026-08-02 21:30:00', 'DANZA', null, 2);
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Notte di Mezza Estate', 'Un percorso di danza sotto il cielo stellato della Tuscia.', '2026-08-09 21:30:00', 'DANZA', null, 2);
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Concerto sotto le Stelle', 'Grandi pagine sinfoniche eseguite dal vivo nel teatro romano.', '2026-08-16 21:00:00', 'MUSICA', null, 3);
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Carmina Burana', 'La celebre cantata scenica di Carl Orff per coro e orchestra.', '2026-08-23 21:00:00', 'MUSICA', null, 3);
-insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Aida', 'Il capolavoro di Verdi in una messa in scena suggestiva e monumentale.', '2026-08-30 21:00:00', 'OPERA', null, 4);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Edipo Re', 'La tragedia di Sofocle sul destino ineluttabile del re di Tebe.', '2026-07-12 21:00:00', 'TEATRO', 'edipo-re.svg', 1);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Antigone', 'Il conflitto tra la legge degli uomini e quella degli dei.', '2026-07-19 21:00:00', 'TEATRO', 'antigone.svg', 1);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Le Baccanti', 'Il dramma di Euripide sull''arrivo del culto di Dioniso a Tebe.', '2026-07-26 21:00:00', 'TEATRO', 'le-baccanti.svg', 1);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Corpi nello Spazio', 'Coreografia contemporanea che dialoga con le pietre del teatro antico.', '2026-08-02 21:30:00', 'DANZA', 'corpi-nello-spazio.svg', 2);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Notte di Mezza Estate', 'Un percorso di danza sotto il cielo stellato della Tuscia.', '2026-08-09 21:30:00', 'DANZA', 'notte-di-mezza-estate.svg', 2);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Concerto sotto le Stelle', 'Grandi pagine sinfoniche eseguite dal vivo nel teatro romano.', '2026-08-16 21:00:00', 'MUSICA', 'concerto-sotto-le-stelle.svg', 3);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Carmina Burana', 'La celebre cantata scenica di Carl Orff per coro e orchestra.', '2026-08-23 21:00:00', 'MUSICA', 'carmina-burana.svg', 3);
+insert into spettacolo (titolo, descrizione, data_ora, genere, immagine, artista_id) values ('Aida', 'Il capolavoro di Verdi in una messa in scena suggestiva e monumentale.', '2026-08-30 21:00:00', 'OPERA', 'aida.svg', 4);
 
 insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Interpretazione potente, un''ora e mezza di pura tensione.', 5, 2, 1);
 insert into recensione (testo, voto, utente_id, spettacolo_id) values ('Regia essenziale ma molto efficace, consigliato.', 4, 1, 1);

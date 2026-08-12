@@ -12,8 +12,12 @@
 
     <h1 class="mb-3" th:text="${spettacolo.id == null} ? 'Nuovo spettacolo' : 'Modifica spettacolo'">Spettacolo</h1>
 
+    <!-- Messaggio d'errore sul file (formato non ammesso). -->
+    <div th:if="${erroreFile}" class="alert alert-danger" th:text="${erroreFile}">errore file</div>
+
+    <!-- enctype="multipart/form-data": indispensabile per inviare un file. -->
     <form th:action="${spettacolo.id == null} ? @{/admin/spettacoli} : @{/admin/spettacoli/{id}(id=${spettacolo.id})}"
-          th:object="${spettacolo}" method="post">
+          th:object="${spettacolo}" method="post" enctype="multipart/form-data">
 
         <div class="mb-3">
             <label for="titolo" class="form-label">Titolo</label>
@@ -49,19 +53,29 @@
 
         <div class="mb-3">
             <label for="artistaId" class="form-label">Artista</label>
-            <!-- Non usiamo th:field: inviamo l'id dell'artista in un campo a
-                 parte (artistaId), che il controller usa per recuperare
-                 l'Artista. th:selected pre-seleziona quello corrente in modifica. -->
             <select id="artistaId" name="artistaId" class="form-select">
                 <option th:each="a : ${artisti}" th:value="${a.id}" th:text="${a.nome}"
                         th:selected="${spettacolo.artista != null and spettacolo.artista.id == a.id}">Artista</option>
             </select>
         </div>
 
+        <!-- Locandina attuale (in modifica), se presente. -->
+        <div class="mb-2" th:if="${spettacolo.immagine != null}">
+            <label class="form-label">Locandina attuale</label>
+            <div>
+                <img th:src="@{'/images/' + ${spettacolo.immagine}}" alt="locandina attuale"
+                     style="height:120px; border-radius:8px; border:1px solid #e3d8cc;" />
+            </div>
+        </div>
+
         <div class="mb-3">
-            <label for="immagine" class="form-label">Immagine (nome file, opzionale)</label>
-            <input type="text" id="immagine" th:field="*{immagine}" class="form-control"
-                   placeholder="es. edipo-re.jpg" />
+            <label for="file" class="form-label">
+                <span th:text="${spettacolo.immagine == null} ? 'Locandina' : 'Sostituisci locandina'">Locandina</span>
+                (facoltativa)
+            </label>
+            <!-- accept="image/*": suggerisce al browser di mostrare solo immagini. -->
+            <input type="file" id="file" name="file" accept="image/*" class="form-control" />
+            <div class="form-text">Formati ammessi: JPG, PNG, GIF, WEBP, SVG. Max 5 MB.</div>
         </div>
 
         <button type="submit" class="btn btn-primary"
