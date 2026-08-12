@@ -6,16 +6,40 @@
 <nav th:replace="~{fragments/common :: nav}"></nav>
 
 <div class="container">
-    <div class="p-5 mb-4 rounded-3 hero">
-        <h1 class="display-5 fw-bold">Festival di Ferento</h1>
-        <p class="col-md-8 fs-5">
-            La stagione teatrale nell'antico teatro romano di Ferento.
-            Scopri gli spettacoli in cartellone, gli artisti e acquista
-            i tuoi biglietti.
+
+    <!-- Hero -->
+    <div class="home-hero">
+        <p class="home-hero-occhiello">Teatro Romano di Ferento · Stagione 2026</p>
+        <h1 class="home-hero-titolo">Festival di Ferento</h1>
+        <p class="home-hero-sottotitolo">
+            La stagione teatrale nell'antico teatro romano. Tragedie, danza,
+            musica e opera sotto il cielo della Tuscia.
         </p>
+        <div class="home-hero-azioni">
+            <a th:href="@{/spettacoli}" class="btn btn-primary btn-lg">Scopri il cartellone</a>
+            <a th:href="@{/artisti}" class="btn btn-outline-primary btn-lg">Gli artisti</a>
+        </div>
     </div>
 
-    <div class="row g-4">
+    <!-- Vetrina locandine -->
+    <h2 class="home-sezione-titolo">In cartellone</h2>
+    <div class="home-vetrina">
+        <a th:href="@{/spettacoli}" class="home-poster">
+            <img th:src="@{/images/edipo-re.svg}" alt="Edipo Re" />
+        </a>
+        <a th:href="@{/spettacoli}" class="home-poster">
+            <img th:src="@{/images/le-baccanti.svg}" alt="Le Baccanti" />
+        </a>
+        <a th:href="@{/spettacoli}" class="home-poster">
+            <img th:src="@{/images/carmina-burana.svg}" alt="Carmina Burana" />
+        </a>
+        <a th:href="@{/spettacoli}" class="home-poster">
+            <img th:src="@{/images/aida.svg}" alt="Aida" />
+        </a>
+    </div>
+
+    <!-- Due card di navigazione -->
+    <div class="row g-4 mt-1">
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-body">

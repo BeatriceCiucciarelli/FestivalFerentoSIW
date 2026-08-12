@@ -283,3 +283,147 @@ a:hover {
   padding: 8px 0;
   border-top: 1px solid #eee4d8;
 }
+
+/* ============================================================
+   Restyling pagina di dettaglio spettacolo
+   ============================================================ */
+
+/* Titolo del dettaglio leggermente piu' grande. */
+.dettaglio-titolo {
+  font-size: 2.6rem;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.dettaglio-artista {
+  color: #8a7a70;
+  font-style: italic;
+  font-size: 1.05rem;
+  margin-bottom: 1.25rem;
+}
+
+/* La trama: testo piu' arioso e leggibile. */
+.dettaglio-trama {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #4a4038;
+  margin-bottom: 1.75rem;
+}
+
+/* Fascia info: griglia di riquadri (Data, Ora, Luogo, Compagnia). */
+.dettaglio-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.info-box {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  background: #f6efe6;
+  border: 1px solid #e9dcc9;
+  border-radius: 10px;
+}
+.info-label {
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 2px;
+}
+.info-valore {
+  font-family: var(--font-titoli);
+  color: var(--color-text);
+  font-size: 1.05rem;
+}
+
+/* Titoli di sezione (Settori, Acquista, Recensioni) piu' presenti. */
+.card .h4 {
+  font-size: 1.5rem;
+}
+
+/* ============================================================
+   Home page: hero e vetrina
+   ============================================================ */
+
+/* Hero: fondo terracotta scuro con testo chiaro, elegante e d'impatto. */
+.home-hero {
+  background: linear-gradient(135deg, #8b3a2f 0%, #5c2118 100%);
+  color: #faf6f0;
+  border-radius: 16px;
+  padding: 3.5rem 3rem;
+  margin: 1.5rem 0 2.5rem;
+  text-align: center;
+}
+.home-hero-occhiello {
+  color: var(--color-accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+.home-hero-titolo {
+  font-family: var(--font-titoli);
+  font-size: 3.4rem;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+  color: #faf6f0;
+}
+.home-hero-sottotitolo {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto 1.75rem;
+  color: #f0e2d5;
+}
+.home-hero-azioni {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* Nell'hero il bottone "outline" va reso chiaro (il fondo e' scuro). */
+.home-hero .btn-outline-primary {
+  color: #faf6f0;
+  border-color: #f0e2d5;
+}
+.home-hero .btn-outline-primary:hover {
+  background: #faf6f0;
+  color: var(--color-primary);
+}
+
+/* Titolo di sezione della home. */
+.home-sezione-titolo {
+  font-family: var(--font-titoli);
+  font-size: 1.8rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Vetrina: fila di locandine in miniatura. */
+.home-vetrina {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.home-poster {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e3d8cc;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.home-poster img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 5 / 6;
+  object-fit: cover;
+}
+.home-poster:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+@media (max-width: 700px) {
+  .home-vetrina { grid-template-columns: repeat(2, 1fr); }
+  .home-hero-titolo { font-size: 2.4rem; }
+}

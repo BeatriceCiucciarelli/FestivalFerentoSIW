@@ -29,14 +29,34 @@
         <!-- Colonna destra: informazioni -->
         <div class="col-md-7">
             <span class="badge-genere" th:text="${spettacolo.genere}">GENERE</span>
-            <h1 class="mt-2" th:text="${spettacolo.titolo}">Titolo</h1>
-            <p class="dettaglio-data"
-               th:text="${#temporals.format(spettacolo.dataOra, 'dd/MM/yyyy - HH:mm')}">data</p>
+            <h1 class="mt-2 dettaglio-titolo" th:text="${spettacolo.titolo}">Titolo</h1>
             <p class="dettaglio-artista">
                 di <span th:text="${spettacolo.artista.nome}">artista</span>
             </p>
+
+            <!-- Trama -->
             <p th:if="${spettacolo.descrizione != null}" th:text="${spettacolo.descrizione}"
-               class="mt-3">descrizione</p>
+               class="dettaglio-trama">descrizione</p>
+
+            <!-- Fascia di informazioni chiave -->
+            <div class="dettaglio-info">
+                <div class="info-box">
+                    <span class="info-label">Data</span>
+                    <span class="info-valore" th:text="${#temporals.format(spettacolo.dataOra, 'dd/MM/yyyy')}">data</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-label">Ora</span>
+                    <span class="info-valore" th:text="${#temporals.format(spettacolo.dataOra, 'HH:mm')}">ora</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-label">Luogo</span>
+                    <span class="info-valore">Teatro Romano di Ferento</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-label">Compagnia</span>
+                    <span class="info-valore" th:text="${spettacolo.artista.nome}">artista</span>
+                </div>
+            </div>
         </div>
     </div>
 
